@@ -8,4 +8,6 @@ tmux:
 
 nvim:
 	mkdir -p $(HOME)/.config/nvim
+	mkdir -p $(HOME)/.config/nvim/lua
 	ln -sf $(PWD)/.config/nvim/init.lua $(HOME)/.config/nvim/init.lua
+	ln -sf $(PWD)/.config/nvim/lua/plugins/ $(HOME)/.config/nvim/lua/
