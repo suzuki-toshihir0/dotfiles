@@ -6,6 +6,9 @@ zsh:
 tmux:
 	ln -sf $(PWD)/.tmux.conf $(HOME)/.tmux.conf
 
+git:
+	ln -s -f ${PWD}/.gitconfig ${HOME}/.gitconfig
+
 nvim:
 	mkdir -p $(HOME)/.config/nvim
 	mkdir -p $(HOME)/.config/nvim/lua
