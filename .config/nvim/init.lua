@@ -99,9 +99,12 @@ vim.g.everforest_better_performance = 1
 -- Apply the colorscheme
 vim.cmd 'colorscheme everforest'
 
+
+-- Fern setting
 -- Fern keymap
 vim.api.nvim_set_keymap('n', '<C-n>', ':Fern . -reveal=% -drawer -toggle -width=40<CR>', { noremap = true, silent = true })
 
 -- Fern renderer setting
 vim.g['fern#renderer'] = 'nerdfont'
 
+vim.g['fern#default_hidden'] = 1
