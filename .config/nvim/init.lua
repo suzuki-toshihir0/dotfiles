@@ -33,6 +33,8 @@ vim.opt.signcolumn = 'yes'
 vim.opt.hidden = true
 vim.opt.swapfile = false
 vim.opt.wrap = true
+vim.opt.list = true
+vim.opt.listchars = { tab = '>-', space = '·', trail = '·' }
 
 vim.keymap.set('n', 'ss', ':split<Return><C-w>w')
 vim.keymap.set('n', 'sv', ':vsplit<Return><C-w>w')
