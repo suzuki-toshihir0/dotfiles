@@ -33,6 +33,8 @@ vim.opt.signcolumn = 'yes'
 vim.opt.hidden = true
 vim.opt.swapfile = false
 vim.opt.wrap = true
+vim.opt.list = true
+vim.opt.listchars = { tab = '>-', space = '·', trail = '·' }
 
 vim.keymap.set('n', 'ss', ':split<Return><C-w>w')
 vim.keymap.set('n', 'sv', ':vsplit<Return><C-w>w')
@@ -97,9 +99,12 @@ vim.g.everforest_better_performance = 1
 -- Apply the colorscheme
 vim.cmd 'colorscheme everforest'
 
+
+-- Fern setting
 -- Fern keymap
 vim.api.nvim_set_keymap('n', '<C-n>', ':Fern . -reveal=% -drawer -toggle -width=40<CR>', { noremap = true, silent = true })
 
 -- Fern renderer setting
 vim.g['fern#renderer'] = 'nerdfont'
 
+vim.g['fern#default_hidden'] = 1
