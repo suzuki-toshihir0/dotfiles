@@ -1,3 +1,0 @@
-return {
-  "lambdalisue/nerdfont.vim",
-}
