@@ -79,16 +79,6 @@ vim.g.clipboard = {
 -- Apply the colorscheme
 vim.cmd 'colorscheme tokyonight-moon'
 
-
--- Fern setting
--- Fern keymap
-vim.api.nvim_set_keymap('n', '<C-n>', ':Fern . -reveal=% -drawer -toggle -width=40<CR>', { noremap = true, silent = true })
-
--- Fern renderer setting
-vim.g['fern#renderer'] = 'nerdfont'
-
-vim.g['fern#default_hidden'] = 1
-
 -- Telescope key mapping
 require('telescope').setup{
   defaults = {
