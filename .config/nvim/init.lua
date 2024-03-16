@@ -108,3 +108,32 @@ vim.api.nvim_set_keymap('n', '<C-n>', ':Fern . -reveal=% -drawer -toggle -width=
 vim.g['fern#renderer'] = 'nerdfont'
 
 vim.g['fern#default_hidden'] = 1
+
+-- Telescope key mapping
+require("lazy").setup("plugins",
+{
+  checker = {enabled = true,},
+}
+)
+
+require('telescope').setup{
+  defaults = {
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case',
+      '-uu' -- **This is the added flag**
+    }
+  }
+}
+
+local builtin = require('telescope.builtin')
+vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files find_command=rg,--files,--hidden,--glob,!*.git <CR>', { noremap = true, silent = true })
+-- vim.keymap.set('n', '<leader>ff', builtin.find_files, {find_command="rg"})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
