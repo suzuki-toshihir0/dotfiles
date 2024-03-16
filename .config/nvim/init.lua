@@ -76,28 +76,8 @@ vim.g.clipboard = {
   cache_enabled = 1,
 }
 
--- everforest
--- Important!!
-if vim.fn.has('termguicolors') == 1 then
-  vim.o.termguicolors = true
-end
-
--- For dark version.
-vim.o.background = 'dark'
-
--- For light version.
--- vim.o.background = 'light'
-
--- Set contrast.
--- This configuration option should be placed before `colorscheme everforest`.
--- Available values: 'hard', 'medium'(default), 'soft'
-vim.g.everforest_background = 'soft'
-
--- For better performance
-vim.g.everforest_better_performance = 1
-
 -- Apply the colorscheme
-vim.cmd 'colorscheme everforest'
+vim.cmd 'colorscheme tokyonight-moon'
 
 
 -- Fern setting
