@@ -24,9 +24,5 @@ $ make
 ```
 
 ## win32yank
-This dotfiles is intended for a WSL2 environment. To share the clipboard between WSL and Windows, `win32yank` is used. To install, please execute the following.
+This dotfiles is intended for a WSL2 environment. To share the clipboard between WSL and Windows, `win32yank` is used. To install, please follow the [installation guide](./win32yank/README.md).
 
-```sh
-$ cd win32yank
-$ make
-```
