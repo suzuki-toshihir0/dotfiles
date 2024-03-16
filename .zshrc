@@ -121,3 +121,9 @@ ide() {
   tmux select-pane -t 0
   nvim .
 }
+
+# GitHub CLI completion setting
+# See details setting manual at https://cli.github.com/manual/gh_completion
+autoload -U compinit
+compinit -i
+
