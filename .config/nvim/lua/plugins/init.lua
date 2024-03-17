@@ -32,4 +32,5 @@ return {
   },
   {'neoclide/coc.nvim', branch = 'release'},
   {"folke/tokyonight.nvim"},
+  {"github/copilot.vim"},
 }
