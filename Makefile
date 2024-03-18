@@ -1,4 +1,4 @@
-all: zsh tmux nvim
+all: zsh tmux git nvim
 
 zsh:
 	ln -sf $(PWD)/.zshrc $(HOME)/.zshrc
