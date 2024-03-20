@@ -8,6 +8,7 @@ tmux:
 
 git:
 	ln -s -f ${PWD}/.gitconfig ${HOME}/.gitconfig
+	ln -s -f ${PWD}/.gitignore_ ${HOME}/.gitignore
 
 nvim:
 	mkdir -p $(HOME)/.config/nvim
