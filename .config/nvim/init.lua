@@ -92,8 +92,15 @@ require('telescope').setup{
       '--smart-case',
       '-uu' -- **This is the added flag**
     }
+  },
+  extentions = {
+    coc = {
+      prefer_locations = true,
+    }
   }
 }
+
+require('telescope').load_extension('coc')
 
 local builtin = require('telescope.builtin')
 vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files find_command=rg,--files,--hidden,--glob,!*.git <CR>', { noremap = true, silent = true })
@@ -105,6 +112,16 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<C-j>', '<Cmd>BufferPrevious<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-k>', '<Cmd>BufferNext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>e', '<Cmd>BufferClose<CR>', { noremap = true, silent = true })
+
+---- Telescope-coc
+--定義ジャンプ
+vim.keymap.set("n", "gd", "<cmd>Telescope coc definitions<cr>", { noremap = true, silent = true })
+-- 型定義ジャンプ
+vim.keymap.set("n", "gy", "<cmd>Telescope coc type_definitions<cr>", { noremap = true, silent = true })
+-- diagnostics
+vim.keymap.set("n", "<leader>ga", "<cmd>Telescope coc diagnostics<cr>", {noremap = true, silent = true })
+-- reference
+vim.keymap.set("n", "<leader>gr", "<cmd>Telescope coc references<cr>", {noremap = true, silent = true })
 
 -- Gitsign setup
 require('gitsigns').setup()
