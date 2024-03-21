@@ -10,7 +10,7 @@
 	ci = commit
 	superpull = pull upstream master
 	superpush = ! git push -u origin $(git rev-parse --abbrev-ref HEAD)
-
+	delete-merged-branches = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
 [core]
 	editor = nvim
 	excludesfile = ~/.gitignore
