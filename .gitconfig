@@ -8,6 +8,9 @@
 	br = branch
 	st = status
 	ci = commit
+	superpull = pull upstream master
+	superpush = ! git push -u origin $(git rev-parse --abbrev-ref HEAD)
+
 [core]
 	editor = nvim
-  excludesfile = ~/.gitignore
+	excludesfile = ~/.gitignore
