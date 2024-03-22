@@ -4,10 +4,11 @@
 [credential]
 	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
 [alias]
-	co = checkout
-	br = branch
-	st = status
-	ci = commit
+	co  = checkout
+  cof = !git branch -a | fzf --height 30% --reverse --border | xargs git checkout
+	br  = branch
+	st  = status
+	ci  = commit
 	superpull = pull upstream master
 	superpush = ! git push -u origin $(git rev-parse --abbrev-ref HEAD)
 	delete-merged-branches = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
