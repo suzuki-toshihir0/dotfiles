@@ -122,6 +122,11 @@ ide() {
   nvim .
 }
 
+repos() {
+  local dir=$(ls ~/repos | fzf --height 30% --reverse --border)
+  cd ~/repos/"$dir"
+}
+
 # GitHub CLI completion setting
 # See details setting manual at https://cli.github.com/manual/gh_completion
 autoload -U compinit
