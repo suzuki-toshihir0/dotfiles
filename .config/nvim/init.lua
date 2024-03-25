@@ -207,5 +207,5 @@ keyset("n", "[g", "<Plug>(coc-diagnostic-prev)", { silent = true })
 keyset("n", "]g", "<Plug>(coc-diagnostic-next)", { silent = true })
 
 vim.g.coc_global_extensions = { 'coc-html', 'coc-json', 'coc-yaml', 'coc-yank', 'coc-vimlsp',
-  'coc-eslint', 'coc-rust-analyzer', 'coc-lua', 'coc-clangd', 'coc-docker', 'coc-spell-checker', 'coc-pyright'}
+  'coc-eslint', 'coc-rust-analyzer', 'coc-lua', 'coc-clangd', 'coc-docker', 'coc-spell-checker', 'coc-pyright', 'coc-yaml'}
 
