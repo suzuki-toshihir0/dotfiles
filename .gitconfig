@@ -11,6 +11,7 @@
 	ci  = commit
 	superpull = pull upstream master
 	superpush = ! git push -u origin $(git rev-parse --abbrev-ref HEAD)
+	force-pull = ! git reset --hard $(git rev-parse --abbrev-ref --symbolic-full-name @{u})
 	delete-merged-branches = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
 [core]
 	editor = nvim
