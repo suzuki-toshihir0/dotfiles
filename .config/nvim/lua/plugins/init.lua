@@ -34,4 +34,5 @@ return {
   {'fannheyward/telescope-coc.nvim'},
   {"folke/tokyonight.nvim"},
   {"github/copilot.vim"},
+  {"sindrets/diffview.nvim"},
 }
