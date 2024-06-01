@@ -29,3 +29,10 @@ This dotfiles is intended for a WSL2 environment. To share the clipboard between
 ## Coc configurations for NeoVim
 To use semantic highlighting in NeoVim's Coc, you need to enable semantic tokens. Please copy and paste the settings in `.config/nvim/coc-settings.json` manually.
 
+## tab completion for rustup
+You neet to run the following command to enable tab completion for rustup. See [Installation - The rustup book](https://rust-lang.github.io/rustup/installation/index.html#enable-tab-completion-for-bash-fish-zsh-or-powershell) for more information.
+
+```sh
+$ rustup completions zsh > ~/.zfunc/_rustup
+```
+
