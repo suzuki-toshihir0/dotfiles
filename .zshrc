@@ -16,6 +16,11 @@ if [[ ":$PATH:" != *":/opt/nvim/:"* ]]; then
     export PATH="$PATH:/opt/nvim/"
 fi
 
+# Add ~/.zfunc to fpath if not already included
+if [[ -d "$HOME/.zfunc" && ":$fpath:" != *":$HOME/.zfunc:"* ]]; then
+    fpath+=("$HOME/.zfunc")
+fi
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
