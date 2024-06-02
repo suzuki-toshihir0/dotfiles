@@ -35,4 +35,5 @@ return {
   {"folke/tokyonight.nvim"},
   {"github/copilot.vim"},
   {"sindrets/diffview.nvim"},
+  {"rust-lang/rust.vim"},
 }
