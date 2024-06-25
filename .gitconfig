@@ -10,6 +10,7 @@
 	br  = branch
 	st  = status
 	ci  = commit
+	ria = rebase -i --autosquash
 	superpull = pull upstream master
 	superpush = ! git push -u origin $(git rev-parse --abbrev-ref HEAD)
 	force-pull = ! git reset --hard $(git rev-parse --abbrev-ref --symbolic-full-name @{u})
