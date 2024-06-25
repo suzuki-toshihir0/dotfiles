@@ -5,7 +5,8 @@
 	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
 [alias]
 	co  = checkout
-  cof = !git branch -a | fzf --height 30% --reverse --border | xargs git checkout
+	cof = !git branch -a | fzf --height 30% --reverse --border | xargs git checkout
+	ylf = !git log --oneline | fzf --height 30% --reverse --border --no-sort | awk '{printf \"%s\", $1}' | win32yank.exe -i
 	br  = branch
 	st  = status
 	ci  = commit
