@@ -36,4 +36,5 @@ return {
   {"github/copilot.vim"},
   {"sindrets/diffview.nvim"},
   {"rust-lang/rust.vim"},
+  {"JuliaEditorSupport/julia-vim"},
 }
