@@ -39,5 +39,12 @@ return {
   {"JuliaEditorSupport/julia-vim"},
   -- nvim-dap
   {"rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}},
-  {"williamboman/mason.nvim"},
+  -- lsp
+  {
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
+  },
+  -- additional plugins about lsp
+  {"j-hui/fidget.nvim"},
 }
