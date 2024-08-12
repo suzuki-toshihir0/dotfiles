@@ -214,4 +214,27 @@ vim.cmd('syntax enable')
 vim.cmd('filetype plugin indent on')
 vim.g.rustfmt_autosave = 1
 
+-- LSP config
+-- It's important that you set up the plugins in the following order:
+--
+-- 1. `mason.nvim`
 require("mason").setup()
+-- 2. `mason-lspconfig.nvim`
+require("mason-lspconfig").setup({
+  ensure_installed = {"lua_ls"}
+})
+-- 3. Setup servers via `lspconfig`
+-- Here, setup the servers automatically based on the installed servers.
+require("mason-lspconfig").setup_handlers {
+    -- The first entry (without a key) will be the default handler
+    -- and will be called for each installed server that doesn't have
+    -- a dedicated handler.
+    function (server_name) -- default handler (optional)
+        require("lspconfig")[server_name].setup {}
+    end,
+    -- Next, you can provide a dedicated handler for specific servers.
+    -- For example, a handler override for the `rust_analyzer`:
+    -- ["rust_analyzer"] = function ()
+    --     require("rust-tools").setup {}
+    -- end
+}
