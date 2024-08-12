@@ -213,3 +213,5 @@ vim.g.coc_global_extensions = { 'coc-html', 'coc-json', 'coc-yaml', 'coc-yank', 
 vim.cmd('syntax enable')
 vim.cmd('filetype plugin indent on')
 vim.g.rustfmt_autosave = 1
+
+require("mason").setup()
