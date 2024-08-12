@@ -44,5 +44,7 @@ return {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
-  }
+  },
+  -- additional plugins about lsp
+  {"j-hui/fidget.nvim"},
 }

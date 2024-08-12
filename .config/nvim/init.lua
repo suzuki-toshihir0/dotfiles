@@ -238,3 +238,6 @@ require("mason-lspconfig").setup_handlers {
     --     require("rust-tools").setup {}
     -- end
 }
+
+-- setup additional plugins about lsp
+require("fidget").setup()
