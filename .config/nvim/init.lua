@@ -156,7 +156,7 @@ vim.g.rustfmt_autosave = 1
 require("mason").setup()
 -- 2. `mason-lspconfig.nvim`
 require("mason-lspconfig").setup({
-  ensure_installed = {"lua_ls"}
+  ensure_installed = {"lua_ls", "clangd", "rust_analyzer"}
 })
 -- 3. Setup servers via `lspconfig`
 -- Here, setup the servers automatically based on the installed servers.
@@ -190,7 +190,7 @@ require("fidget").setup()
 
 require"nvim-treesitter.configs".setup {
   -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust", "cpp", "python"},
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
