@@ -266,6 +266,7 @@ vim.keymap.set('n', 'gr', '<cmd>Lspsaga lsp_finder<CR>')
 vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
 vim.keymap.set("n", "gn", "<cmd>Lspsaga rename<CR>")
 vim.keymap.set("n", "ge", "<cmd>Lspsaga show_line_diagnostics<CR>")
+vim.keymap.set("n", "gw", "<cmd>Lspsaga show_workspace_diagnostics<CR>")
 vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
 vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
 
