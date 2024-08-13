@@ -187,3 +187,9 @@ require("mason-lspconfig").setup_handlers {
 
 -- setup additional plugins about lsp
 require("fidget").setup()
+
+-- keymaps about lsp
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { noremap=true, silent=true })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { noremap=true, silent=true })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { noremap=true, silent=true })
+
