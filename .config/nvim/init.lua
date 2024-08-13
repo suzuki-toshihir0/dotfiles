@@ -270,3 +270,8 @@ vim.keymap.set("n", "gw", "<cmd>Lspsaga show_workspace_diagnostics<CR>")
 vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
 vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
 
+-- dap
+require ('mason-nvim-dap').setup({
+    ensure_installed = {'codelldb'},
+    handlers = {}, -- sets up dap in the predefined manner
+})

@@ -37,6 +37,7 @@ return {
   {"JuliaEditorSupport/julia-vim"},
   -- nvim-dap
   {"rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}},
+  {"jay-babu/mason-nvim-dap.nvim"},
   -- lsp
   {
     "williamboman/mason.nvim",
