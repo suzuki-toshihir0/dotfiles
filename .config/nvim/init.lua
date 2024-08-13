@@ -92,15 +92,8 @@ require('telescope').setup{
       '--smart-case',
       '-uu' -- **This is the added flag**
     }
-  },
-  extentions = {
-    coc = {
-      prefer_locations = true,
-    }
   }
 }
-
-require('telescope').load_extension('coc')
 
 local builtin = require('telescope.builtin')
 vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files find_command=rg,--files,--hidden,--glob,!*.git <CR>', { noremap = true, silent = true })
@@ -115,34 +108,6 @@ vim.keymap.set('n', '<leader>e', '<Cmd>BufferClose<CR>', { noremap = true, silen
 
 -- Gitsign setup
 require('gitsigns').setup()
-
--- Highlight the symbol and its references on a CursorHold event(cursor is idle)
-vim.api.nvim_create_augroup("CocGroup", {})
-vim.api.nvim_create_autocmd("CursorHold", {
-  group = "CocGroup",
-  command = "silent call CocActionAsync('highlight')",
-  desc = "Highlight symbol under cursor on CursorHold"
-})
-
-
--- Setup formatexpr specified filetype(s)
-vim.api.nvim_create_autocmd("FileType", {
-  group = "CocGroup",
-  pattern = "typescript,json",
-  command = "setl formatexpr=CocAction('formatSelected')",
-  desc = "Setup formatexpr specified filetype(s)."
-})
-
--- Update signature help on jump placeholder
-vim.api.nvim_create_autocmd("User", {
-  group = "CocGroup",
-  pattern = "CocJumpPlaceholder",
-  command = "call CocActionAsync('showSignatureHelp')",
-  desc = "Update signature help on jump placeholder"
-})
-
-vim.g.coc_global_extensions = { 'coc-html', 'coc-json', 'coc-yaml', 'coc-yank', 'coc-vimlsp',
-  'coc-eslint', 'coc-rust-analyzer', 'coc-clangd', 'coc-docker', 'coc-spell-checker', 'coc-pyright', 'coc-yaml', 'coc-julia'}
 
 -- rust.vim settings
 vim.cmd('syntax enable')

@@ -30,8 +30,6 @@ return {
     },
     version = '^1.0.0', -- optional: only update when a new 1.x version is released
   },
-  {'neoclide/coc.nvim', branch = 'release'},
-  {'fannheyward/telescope-coc.nvim'},
   {"folke/tokyonight.nvim"},
   {"github/copilot.vim"},
   {"sindrets/diffview.nvim"},
