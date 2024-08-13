@@ -113,58 +113,8 @@ vim.keymap.set('n', '<C-j>', '<Cmd>BufferPrevious<CR>', { noremap = true, silent
 vim.keymap.set('n', '<C-k>', '<Cmd>BufferNext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>e', '<Cmd>BufferClose<CR>', { noremap = true, silent = true })
 
----- Telescope-coc
---定義ジャンプ
-vim.keymap.set("n", "gd", "<cmd>Telescope coc definitions<cr>", { noremap = true, silent = true })
--- 型定義ジャンプ
-vim.keymap.set("n", "gy", "<cmd>Telescope coc type_definitions<cr>", { noremap = true, silent = true })
--- diagnostics
-vim.keymap.set("n", "<leader>ga", "<cmd>Telescope coc diagnostics<cr>", {noremap = true, silent = true })
--- reference
-vim.keymap.set("n", "<leader>gr", "<cmd>Telescope coc references<cr>", {noremap = true, silent = true })
-
 -- Gitsign setup
 require('gitsigns').setup()
-
--- Coc settings
-vim.opt.writebackup = false
-local keyset = vim.keymap.set
-
--- Autocomplete
-function _G.check_back_space()
-  local col = vim.fn.col('.') - 1
-  return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
-end
-
-
--- Use Tab for trigger completion with characters ahead and navigate
-local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
-
-keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
-keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
-
--- Make <CR> to accept selected completion item or notify coc.nvim to format
--- <C-g>u breaks current undo, please make your own choice
-keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
-
--- Use <c-j> to trigger snippets
--- keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
--- Use <c-space> to trigger completion
-keyset("i", "<c-space>", "coc#refresh()", { silent = true, expr = true })
-
--- Use K to show documentation in preview window
-function _G.show_docs()
-  local cw = vim.fn.expand('<cword>')
-  if vim.fn.index({ 'vim', 'help' }, vim.bo.filetype) >= 0 then
-    vim.api.nvim_command('h ' .. cw)
-  elseif vim.api.nvim_eval('coc#rpc#ready()') then
-    vim.fn.CocActionAsync('doHover')
-  else
-    vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
-  end
-end
-
-keyset("n", "K", '<CMD>lua _G.show_docs()<CR>', { silent = true })
 
 -- Highlight the symbol and its references on a CursorHold event(cursor is idle)
 vim.api.nvim_create_augroup("CocGroup", {})
@@ -191,21 +141,6 @@ vim.api.nvim_create_autocmd("User", {
   desc = "Update signature help on jump placeholder"
 })
 
--- Apply codeAction to the selected region
--- Example: `<leader>aap` for current paragraph
-
-local opts = { silent = true, nowait = true }
-
--- Symbol renaming
-keyset("n", "rn", "<Plug>(coc-rename)", { silent = true })
-keyset("n", "rma", "<Plug>(coc-codeaction-selected)j", opts)
--- Run the Code Lens actions on the current line
-keyset("n", "<leader>cl", "<Plug>(coc-codelens-action)", opts)
--- Use `[g` and `]g` to navigate diagnostics
--- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
-keyset("n", "[g", "<Plug>(coc-diagnostic-prev)", { silent = true })
-keyset("n", "]g", "<Plug>(coc-diagnostic-next)", { silent = true })
-
 vim.g.coc_global_extensions = { 'coc-html', 'coc-json', 'coc-yaml', 'coc-yank', 'coc-vimlsp',
   'coc-eslint', 'coc-rust-analyzer', 'coc-clangd', 'coc-docker', 'coc-spell-checker', 'coc-pyright', 'coc-yaml', 'coc-julia'}
 
@@ -221,7 +156,7 @@ vim.g.rustfmt_autosave = 1
 require("mason").setup()
 -- 2. `mason-lspconfig.nvim`
 require("mason-lspconfig").setup({
-  ensure_installed = {"lua_ls"}
+  ensure_installed = {"lua_ls", "clangd", "rust_analyzer"}
 })
 -- 3. Setup servers via `lspconfig`
 -- Here, setup the servers automatically based on the installed servers.
@@ -252,3 +187,59 @@ require("mason-lspconfig").setup_handlers {
 
 -- setup additional plugins about lsp
 require("fidget").setup()
+
+require"nvim-treesitter.configs".setup {
+  -- A list of parser names, or "all" (the listed parsers MUST always be installed)
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust", "cpp", "python"},
+
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = true,
+
+  -- List of parsers to ignore installing (or "all")
+  -- ignore_install = { "javascript" },
+
+  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+
+  highlight = {
+    enable = true,
+
+    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+    -- the name of the parser)
+    -- list of language that will be disabled
+    -- disable = { "c", "rust" },
+    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+    -- disable = function(lang, buf)
+    --     local max_filesize = 100 * 1024 -- 100 KB
+    --     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+    --     if ok and stats and stats.size > max_filesize then
+    --         return true
+    --     end
+    -- end,
+
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+
+-- keymaps about lsp
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { noremap=true, silent=true })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { noremap=true, silent=true })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { noremap=true, silent=true })
+
+vim.keymap.set('n', 'K', '<cmd>Lspsaga hover_doc<CR>')
+vim.keymap.set("n", "ga", "<cmd>Lspsaga code_action<CR>")
+vim.keymap.set('n', 'gr', '<cmd>Lspsaga lsp_finder<CR>')
+vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
+vim.keymap.set("n", "gn", "<cmd>Lspsaga rename<CR>")
+vim.keymap.set("n", "ge", "<cmd>Lspsaga show_line_diagnostics<CR>")
+vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
+vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
