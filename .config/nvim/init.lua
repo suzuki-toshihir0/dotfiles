@@ -276,7 +276,42 @@ require ('mason-nvim-dap').setup({
     handlers = {}, -- sets up dap in the predefined manner
 })
 
--- neorepl
+-- .vscode/launch.json
+require("dap.ext.vscode").load_launchjs(nil, { codelldb = { "c", "cpp", "" } })
+
+vim.keymap.set("n", "<F5>", require("dap").continue, { desc = "Debug: Start/Continue" })
+vim.keymap.set("n", "<F11>", require("dap").step_into, { desc = "Debug: Step Into" })
+vim.keymap.set("n", "<F9>", require("dap").step_over, { desc = "Debug: Step Over" })
+vim.keymap.set("n", "<F10>", require("dap").step_out, { desc = "Debug: Step Out" })
+vim.keymap.set("n", "<leader>b", require("dap").toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })
+
+require("dapui").setup{
+  -- Set icons to characters that are more likely to work in every terminal.
+  --    Feel free to remove or use ones that you like more! :)
+  --    Don't feel like these are good choices.
+  icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+  controls = {
+    icons = {
+      pause = '⏸',
+      play = '▶',
+      step_into = '⏎',
+      step_over = '⏭',
+      step_out = '⏮',
+      step_back = 'b',
+      run_last = '▶▶',
+      terminate = '⏹',
+      disconnect = '⏏',
+    },
+  },
+}
+
+vim.keymap.set("n", "<F7>", require("dapui").toggle, { desc = "Debug: See last session result." })
+
+require("dap").listeners.after.event_initialized['dapui_config'] = require("dapui").open
+require("dap").listeners.before.event_terminated['dapui_config'] = require("dapui").close
+require("dap").listeners.before.event_exited['dapui_config'] = require("dapui").close
+
+    -- neorepl
 vim.keymap.set('n', 'g:', function()
   -- get current buffer and window
   local buf = vim.api.nvim_get_current_buf()
