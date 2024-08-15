@@ -38,6 +38,7 @@ return {
   -- nvim-dap
   {"rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}},
   {"jay-babu/mason-nvim-dap.nvim"},
+  {"jonboh/nvim-dap-rr", dependencies = {"nvim-dap", "telescope.nvim"}},
   -- lsp
   {
     "williamboman/mason.nvim",

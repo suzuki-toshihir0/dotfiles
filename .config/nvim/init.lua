@@ -272,18 +272,98 @@ vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
 
 -- dap
 require ('mason-nvim-dap').setup({
-    ensure_installed = {'codelldb'},
+    ensure_installed = {'codelldb', 'cpptools'},
+    automatic_installation = true,
     handlers = {}, -- sets up dap in the predefined manner
 })
 
--- .vscode/launch.json
-require("dap.ext.vscode").load_launchjs(nil, { codelldb = { "c", "cpp", "" } })
+local dap = require('dap')
+
+-- point dap to the installed cpptools, if you don't use mason, you'll need to change `cpptools_path`
+local cpptools_path = vim.fn.stdpath("data").."/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7"
+dap.adapters.cppdbg = {
+    id = 'cppdbg',
+    type = 'executable',
+    command = cpptools_path,
+}
+
+require("dap").configurations = {
+  cpp = {
+    {
+      name = "launch codelldb",
+      type = "codelldb",
+      request = "launch",
+      program = function()
+        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/EXECUTABLE', 'file')
+      end,
+      cwd = function()
+        return vim.fn.input('Path to cwd: ', vim.fn.getcwd() .. '/CWD', 'file')
+      end,
+    },
+    {
+      name= "rr",
+      type= "cppdbg",
+      request= "launch",
+      program = function()
+        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/EXECUTABLE', 'file')
+      end,
+      args= {},
+      -- miDebuggerPath = "/usr/bin/gdb",
+      miDebuggerServerAddress= "127.0.0.1:50505",
+      stopAtEntry= false,
+      cwd = function()
+        return vim.fn.input('Path to cwd: ', vim.fn.getcwd() .. '/CWD', 'file')
+      end,
+      environment= {},
+      externalConsole= true,
+      MIMode= "gdb",
+      setupCommands= {
+          {
+              description= "Setup to resolve symbols",
+              text= "set sysroot /",
+              ignoreFailures= false
+          },
+          {
+             description= "Enable pretty-printing for gdb",
+             text= "-enable-pretty-printing",
+             ignoreFailures= false
+          }
+      },
+    }
+  }
+}
 
 vim.keymap.set("n", "<F5>", require("dap").continue, { desc = "Debug: Start/Continue" })
 vim.keymap.set("n", "<F11>", require("dap").step_into, { desc = "Debug: Step Into" })
 vim.keymap.set("n", "<F10>", require("dap").step_over, { desc = "Debug: Step Over" })
 vim.keymap.set("n", "<F9>", require("dap").step_out, { desc = "Debug: Step Out" })
 vim.keymap.set("n", "<leader>b", require("dap").toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })
+
+local rr_dap = require("nvim-dap-rr")
+rr_dap.setup({
+    mappings = {
+        -- you will probably want to change these defaults to that they match
+        -- your usual debugger mappings
+        continue = "<F5>",
+        step_over = "<F10>",
+        step_out = "<F9>",
+        step_into = "<F11>",
+        reverse_continue = "<S-F5>", -- <S-F5>
+        reverse_step_over = "<S-F10>", -- <S-F10>
+        reverse_step_out = "<S-F9>", -- <S-F9>
+        reverse_step_into = "<S-F11>", -- <S-F11>
+        -- instruction level stepping
+        -- step_over_i = "<F32>", -- <C-F8>
+        -- step_out_i = "<F33>", -- <C-F8>
+        -- step_into_i = "<F34>", -- <C-F8>
+        -- reverse_step_over_i = "<F44>", -- <SC-F8>
+        -- reverse_step_out_i = "<F45>", -- <SC-F9>
+        -- reverse_step_into_i = "<F46>", -- <SC-F10>
+    }
+})
+
+-- require("dap").configurations.rust = { rr_dap.get_rust_config() }
+rr_dap.get_config()
 
 require("dapui").setup{
   -- Set icons to characters that are more likely to work in every terminal.
@@ -307,11 +387,14 @@ require("dapui").setup{
 
 vim.keymap.set("n", "<F7>", require("dapui").toggle, { desc = "Debug: See last session result." })
 
+vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='DapUIStop', linehl='', numhl=''})
+vim.fn.sign_define('DapStopped', {text='→', texthl='DapUIStop', linehl='CursorLine', numhl=''})
+
 require("dap").listeners.after.event_initialized['dapui_config'] = require("dapui").open
 require("dap").listeners.before.event_terminated['dapui_config'] = require("dapui").close
 require("dap").listeners.before.event_exited['dapui_config'] = require("dapui").close
 
-    -- neorepl
+-- neorepl
 vim.keymap.set('n', 'g:', function()
   -- get current buffer and window
   local buf = vim.api.nvim_get_current_buf()
