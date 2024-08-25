@@ -175,7 +175,7 @@ cmp.setup.cmdline(':', {
 require("mason").setup()
 -- 2. `mason-lspconfig.nvim`
 require("mason-lspconfig").setup({
-  ensure_installed = {"lua_ls", "clangd", "rust_analyzer"}
+  ensure_installed = {"lua_ls", "clangd", "rust_analyzer", "julials"}
 })
 -- 3. Setup servers via `lspconfig`
 -- Here, setup the servers automatically based on the installed servers.
@@ -215,7 +215,7 @@ require("fidget").setup()
 
 require"nvim-treesitter.configs".setup {
   -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust", "cpp", "python"},
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust", "cpp", "python", "julia"},
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
