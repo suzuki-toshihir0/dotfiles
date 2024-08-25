@@ -151,3 +151,4 @@ path=('/home/suzuki/.juliaup/bin' $path)
 export PATH
 
 # <<< juliaup initialize <<<
+. "$HOME/.cargo/env"
