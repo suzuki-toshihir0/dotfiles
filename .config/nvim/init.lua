@@ -175,7 +175,7 @@ cmp.setup.cmdline(':', {
 require("mason").setup()
 -- 2. `mason-lspconfig.nvim`
 require("mason-lspconfig").setup({
-  ensure_installed = {"lua_ls", "clangd", "rust_analyzer", "julials"}
+  ensure_installed = {"lua_ls", "clangd", "rust_analyzer", "julials", "typst_lsp"}
 })
 -- 3. Setup servers via `lspconfig`
 -- Here, setup the servers automatically based on the installed servers.
@@ -207,6 +207,14 @@ require("mason-lspconfig").setup_handlers {
         capabilities = require("cmp_nvim_lsp").default_capabilities(),
         cmd = { "clangd", "--offset-encoding=utf-16" },
       }
+    end,
+    ["typst_lsp"] = function()
+      require'lspconfig'.typst_lsp.setup{
+        settings = {
+          exportPdf = "onType" -- Choose onType, onSave or never.
+        -- serverPath = "" -- Normally, there is no need to uncomment it.
+        }
+      }
     end
 }
 
@@ -215,7 +223,7 @@ require("fidget").setup()
 
 require"nvim-treesitter.configs".setup {
   -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust", "cpp", "python", "julia"},
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust", "cpp", "python", "julia", "typst"},
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
