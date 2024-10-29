@@ -280,7 +280,7 @@ vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
 
 -- dap
 require ('mason-nvim-dap').setup({
-    ensure_installed = {'codelldb', 'cpptools'},
+    ensure_installed = {'codelldb', 'cpptools', 'probe-rs'},
     automatic_installation = true,
     handlers = {}, -- sets up dap in the predefined manner
 })
@@ -372,6 +372,61 @@ rr_dap.setup({
 
 -- require("dap").configurations.rust = { rr_dap.get_rust_config() }
 rr_dap.get_config()
+
+-- probe-rs
+dap.adapters["probe-rs-debug"] = {
+  type = "server",
+  port = "${port}",
+  executable = {
+    command = vim.fn.expand "$HOME/.cargo/bin/probe-rs",
+    args = { "dap-server", "--port", "${port}" },
+  },
+}
+
+require("dap.ext.vscode").type_to_filetypes["probe-rs-debug"] = { "rust" }
+
+dap.listeners.before["event_probe-rs-rtt-channel-config"]["plugins.nvim-dap-probe-rs"] = function(session, body)
+  local utils = require "dap.utils"
+  utils.notify(
+    string.format('probe-rs: Opening RTT channel %d with name "%s"!', body.channelNumber, body.channelName)
+  )
+  local file = io.open("probe-rs.log", "a")
+  if file then
+    file:write(
+      string.format(
+        '%s: Opening RTT channel %d with name "%s"!\n',
+        os.date "%Y-%m-%d-T%H:%M:%S",
+        body.channelNumber,
+        body.channelName
+      )
+    )
+  end
+  if file then file:close() end
+  session:request("rttWindowOpened", { body.channelNumber, true })
+end
+
+dap.listeners.before["event_probe-rs-rtt-data"]["plugins.nvim-dap-probe-rs"] = function(_, body)
+  local message =
+    string.format("%s: RTT-Channel %d - Message: %s", os.date "%Y-%m-%d-T%H:%M:%S", body.channelNumber, body.data)
+  local repl = require "dap.repl"
+  repl.append(message)
+  local file = io.open("probe-rs.log", "a")
+  if file then file:write(message) end
+  if file then file:close() end
+end
+
+dap.listeners.before["event_probe-rs-show-message"]["plugins.nvim-dap-probe-rs"] = function(_, body)
+  local message = string.format("%s: probe-rs message: %s", os.date "%Y-%m-%d-T%H:%M:%S", body.message)
+  local repl = require "dap.repl"
+  repl.append(message)
+  local file = io.open("probe-rs.log", "a")
+  if file then file:write(message) end
+  if file then file:close() end
+end
+
+require("dap.ext.vscode").load_launchjs(nil, {
+  ["probe-rs-debug"] = { "rust" }
+})
 
 require("dapui").setup{
   -- Set icons to characters that are more likely to work in every terminal.
