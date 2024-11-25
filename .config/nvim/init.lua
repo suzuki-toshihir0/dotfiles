@@ -175,7 +175,7 @@ cmp.setup.cmdline(':', {
 require("mason").setup()
 -- 2. `mason-lspconfig.nvim`
 require("mason-lspconfig").setup({
-  ensure_installed = {"lua_ls", "clangd", "rust_analyzer", "julials", "typst_lsp"}
+  ensure_installed = {"lua_ls", "clangd", "rust_analyzer", "julials", "typst_lsp", "typos_lsp"}
 })
 -- 3. Setup servers via `lspconfig`
 -- Here, setup the servers automatically based on the installed servers.
@@ -215,7 +215,14 @@ require("mason-lspconfig").setup_handlers {
         -- serverPath = "" -- Normally, there is no need to uncomment it.
         }
       }
-    end
+    end,
+    ["typos_lsp"] = function()
+      require("lspconfig").typos_lsp.setup{
+        init_options = {
+          config = '~/.config/nvim/spell/.typos.toml',
+        },
+      }
+    end,
 }
 
 -- setup additional plugins about lsp
