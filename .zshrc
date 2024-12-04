@@ -16,6 +16,11 @@ if [[ ":$PATH:" != *":/opt/nvim/:"* ]]; then
     export PATH="$PATH:/opt/nvim/"
 fi
 
+# Add ~/.local/bin to PATH if not already included
+if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
 # Add ~/.zfunc to fpath if not already included
 if [[ -d "$HOME/.zfunc" && ":$fpath:" != *":$HOME/.zfunc:"* ]]; then
     fpath+=("$HOME/.zfunc")
