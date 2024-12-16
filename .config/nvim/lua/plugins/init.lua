@@ -59,5 +59,6 @@ return {
   {'hrsh7th/cmp-cmdline'},
   {'hrsh7th/nvim-cmp'},
   -- lua repl
-  {"ii14/neorepl.nvim"}
+  {"ii14/neorepl.nvim"},
+  {"knsh14/vim-github-link"}
 }
