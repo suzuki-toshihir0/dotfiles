@@ -480,3 +480,6 @@ vim.keymap.set('n', 'g:', function()
   -- resize repl window and make it fixed height
   vim.cmd('resize 10 | setl winfixheight')
 end)
+
+-- vim-github-link
+vim.keymap.set({'v', 'n'}, '<leader>gl', ':GetCommitLink<CR>')
