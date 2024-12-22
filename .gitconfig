@@ -17,6 +17,7 @@
 	delete-merged-branches = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
 [core]
 	editor = nvim
+	quotepath = false
 	excludesfile = ~/.gitignore
 [pull]
 	ff = only
