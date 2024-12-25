@@ -175,7 +175,7 @@ cmp.setup.cmdline(':', {
 require("mason").setup()
 -- 2. `mason-lspconfig.nvim`
 require("mason-lspconfig").setup({
-  ensure_installed = {"lua_ls", "clangd", "rust_analyzer", "julials", "typst_lsp", "typos_lsp"}
+  ensure_installed = {"lua_ls", "clangd", "rust_analyzer", "julials", "typst_lsp", "typos_lsp", "pyright"}
 })
 -- 3. Setup servers via `lspconfig`
 -- Here, setup the servers automatically based on the installed servers.
