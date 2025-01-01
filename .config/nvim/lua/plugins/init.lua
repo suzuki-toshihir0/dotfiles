@@ -53,6 +53,13 @@ return {
     end,
     dependencies = {'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons'}
   },
+  {
+    "hrsh7th/vim-vsnip",
+    config = function()
+      -- スニペットファイルの保存場所を設定
+      vim.g.vsnip_snippet_dir = vim.fn.stdpath('config') .. '/snippets'
+    end,
+  },
   {'hrsh7th/cmp-nvim-lsp'},
   {'hrsh7th/cmp-buffer'},
   {'hrsh7th/cmp-path'},
