@@ -121,8 +121,10 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias v="nvim"
+alias e="echo -n"
 alias t="tmux"
+alias v="nvim"
+alias yank="win32yank.exe -i"
 
 # custom commands
 ide() {
