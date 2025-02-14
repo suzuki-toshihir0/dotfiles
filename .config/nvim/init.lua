@@ -114,6 +114,25 @@ vim.cmd('syntax enable')
 vim.cmd('filetype plugin indent on')
 vim.g.rustfmt_autosave = 1
 
+-- C/C++ファイル保存時に、プロジェクトにフォーマット設定(.clang-format)がある場合のみ、
+-- LSP (clangd) の自動フォーマットを実行する設定
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = {"*.c", "*.cpp", "*.h", "*.hpp"},  -- 対象のファイル拡張子を指定
+  callback = function()
+    -- カレントディレクトリから親ディレクトリに向けて、.clang-formatを探す
+    -- 末尾の';'によって、上位ディレクトリも検索対象になる
+    local config_file = vim.fn.findfile('.clang-format', vim.fn.getcwd() .. ';')
+
+    -- .clang-formatが見つからなければ、フォーマット処理を中断してそのまま保存
+    if config_file == "" then
+      return
+    end
+
+    -- .clang-formatが存在する場合は、LSPのフォーマット機能を同期的に実行する
+    vim.lsp.buf.format({ async = false })
+  end,
+})
+
 -- nvim-cmp setup
 local cmp = require'cmp'
 
