@@ -199,7 +199,7 @@ vim.api.nvim_set_keymap('s', '<S-Tab>', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump
 require("mason").setup()
 -- 2. `mason-lspconfig.nvim`
 require("mason-lspconfig").setup({
-  ensure_installed = {"lua_ls", "clangd", "rust_analyzer", "julials", "typst_lsp", "typos_lsp", "pyright"}
+  ensure_installed = {"lua_ls", "clangd", "rust_analyzer", "julials", "tinymist", "typos_lsp", "pyright"}
 })
 -- 3. Setup servers via `lspconfig`
 -- Here, setup the servers automatically based on the installed servers.

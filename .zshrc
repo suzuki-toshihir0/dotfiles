@@ -26,6 +26,14 @@ if [[ -d "$HOME/.zfunc" && ":$fpath:" != *":$HOME/.zfunc:"* ]]; then
     fpath+=("$HOME/.zfunc")
 fi
 
+# ~/.zshrc
+# 外部に公開したくない情報を書くファイル
+if [ -f ~/.zshrc_private ]; then
+    source ~/.zshrc_private
+else
+    echo "Warning: ~/.zshrc_private not found. Some configurations may be missing."
+fi
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
