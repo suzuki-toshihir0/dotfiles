@@ -147,6 +147,17 @@ repos() {
   cd ~/repos/"$dir"
 }
 
+worktrees() {
+  local dir=$(git worktree list 2>/dev/null | awk '{print $1}' | fzf --height 30% --reverse --border)
+
+  if [[ -z "$dir" ]]; then
+    echo "No worktree selected or worktrees not found."
+    return 1
+  fi
+
+  cd "$dir" || echo "Failed to change directory to $dir"
+}
+
 # GitHub CLI completion setting
 # See details setting manual at https://cli.github.com/manual/gh_completion
 autoload -U compinit
