@@ -1,5 +1,15 @@
-return {
+local is_vscode_neovim = vim.g.vscode
+
+-- Native NeovimでもVSCode Neovimでも使うプラグイン一覧
+local common_plugins = {
   {"folke/lazy.nvim"},
+  {"lambdalisue/nerdfont.vim"},
+  {"github/copilot.vim"},
+  {"knsh14/vim-github-link"},
+}
+
+-- VSCode Neovimだと動かないのでNative Neovimでだけ使いたいもの
+local non_vscode_neovim_plugins = {
   {'lambdalisue/fern.vim',
     keys = {
       { "<C-n>", ":Fern . -reveal=% -drawer -toggle -width=40<CR>", desc = "toggle fern" },
@@ -31,7 +41,6 @@ return {
     version = '^1.0.0', -- optional: only update when a new 1.x version is released
   },
   {"folke/tokyonight.nvim"},
-  {"github/copilot.vim"},
   {"sindrets/diffview.nvim"},
   {"rust-lang/rust.vim"},
   {"JuliaEditorSupport/julia-vim"},
@@ -61,5 +70,21 @@ return {
   {'hrsh7th/cmp-path'},
   {'hrsh7th/cmp-cmdline'},
   {'hrsh7th/nvim-cmp'},
-  {"knsh14/vim-github-link"},
 }
+
+-- この環境で読み込むプラグイン一覧
+local plugins = {}
+
+-- まず共通プラグインをプラグイン一覧に追加
+for _, plugin in ipairs(common_plugins) do
+  table.insert(plugins, plugin)
+end
+
+-- そのあと、VSCode NeovimでなければNative Neovimでだけ使いたいプラグインを追加
+if not is_vscode_neovim then
+  for _, plugin in ipairs(non_vscode_neovim_plugins) do
+    table.insert(plugins, plugin)
+  end
+end
+
+return plugins
