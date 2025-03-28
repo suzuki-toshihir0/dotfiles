@@ -1,47 +1,40 @@
+-- 基本設定
 vim.scriptencoding = 'utf-8'
 vim.opt.encoding = 'utf-8'
 vim.opt.fileencoding = 'utf-8'
 
-vim.opt.number = true
-vim.wo.number = true
-vim.wo.relativenumber = false
-vim.opt.mouse = 'a'
-vim.opt.title = true
-vim.opt.autoindent = true
-vim.opt.smartindent = true
-vim.opt.hlsearch = true
-vim.opt.backup = false
-vim.opt.showcmd = true
-vim.opt.cmdheight = 2
-vim.opt.laststatus = 2
-vim.opt.expandtab = true
-vim.opt.scrolloff = 10
-vim.opt.shell = 'zsh'
-vim.opt.inccommand = 'split'
-vim.opt.ignorecase = true
-vim.opt.smarttab = true
-vim.opt.breakindent = true
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
-vim.opt.wrap = true
-vim.opt.helplang = 'ja', 'en'
-vim.opt.updatetime = 300
-vim.opt.showtabline = 2
-vim.opt.clipboard = 'unnamedplus'
-vim.opt.termguicolors = true
-vim.opt.signcolumn = 'yes'
-vim.opt.hidden = true
-vim.opt.swapfile = false
-vim.opt.wrap = true
-vim.opt.list = true
-vim.opt.listchars = { tab = '>-', space = '·', trail = '·' }
-
-vim.keymap.set('n', 'ss', ':split<Return><C-w>w')
-vim.keymap.set('n', 'sv', ':vsplit<Return><C-w>w')
-vim.keymap.set('n', 'sh', '<C-w>h')
-vim.keymap.set('n', 'sk', '<C-w>k')
-vim.keymap.set('n', 'sj', '<C-w>j')
-vim.keymap.set('n', 'sl', '<C-w>l')
+vim.opt.number = true             -- 行番号を表示する
+vim.wo.number = true              -- ウィンドウごとに行番号を表示する
+vim.wo.relativenumber = false     -- 相対行番号を無効にする
+vim.opt.mouse = 'a'               -- すべてのモードでマウス操作を有効にする
+vim.opt.title = true              -- ウィンドウタイトルをファイル名などに自動設定する
+vim.opt.autoindent = true         -- 自動インデントを有効にする
+vim.opt.smartindent = true        -- コード構造に応じたスマートなインデントを有効にする
+vim.opt.hlsearch = true           -- 検索結果をハイライト表示する
+vim.opt.backup = false            -- バックアップファイルの作成を無効にする
+vim.opt.showcmd = true            -- コマンド入力中に部分的なコマンドを表示する
+vim.opt.cmdheight = 2             -- コマンドラインの高さを2行に設定する
+vim.opt.laststatus = 2            -- 常にステータスラインを表示する
+vim.opt.expandtab = true          -- タブをスペースに変換する
+vim.opt.scrolloff = 10            -- カーソル周辺に10行分の余白を確保する
+vim.opt.shell = 'zsh'             -- 使用するシェルをzshに設定する
+vim.opt.inccommand = 'split'      -- インクリメンタルコマンドの結果を分割ウィンドウでプレビューする
+vim.opt.ignorecase = true         -- 検索時に大文字と小文字を区別しない
+vim.opt.smarttab = true           -- タブ入力時に適切なインデント幅を自動調整する
+vim.opt.breakindent = true        -- 折り返し行にもインデントを適用する
+vim.opt.shiftwidth = 2            -- 自動インデントの際のスペース幅を2に設定する
+vim.opt.tabstop = 2               -- タブの幅を2スペース分に設定する
+vim.opt.wrap = true               -- 長い行を画面幅に合わせて折り返して表示する
+vim.opt.helplang = 'ja'           -- ヘルプファイルの表示言語を日本語に設定する
+vim.opt.updatetime = 300          -- 更新間隔を300ミリ秒に設定し、レスポンスを改善する
+vim.opt.showtabline = 2           -- 常にタブラインを表示する
+vim.opt.clipboard = 'unnamedplus' -- システムのクリップボードと共有する
+vim.opt.termguicolors = true      -- 真のカラーサポートを有効にする
+vim.opt.signcolumn = 'yes'        -- サインカラム（デバッグやGit情報表示など）を常に表示する
+vim.opt.hidden = true             -- 未保存バッファを隠しバッファとして保持する
+vim.opt.swapfile = false          -- スワップファイルの作成を無効にする
+vim.opt.list = true               -- 空白やタブなどの特殊文字を表示する
+vim.opt.listchars = { tab = '>-', space = '·', trail = '·' }  -- 表示する特殊文字の記号を設定する
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -57,12 +50,11 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins",
-{
-  checker = {enabled = false,},
-}
+  {
+    checker = {enabled = false,},
+  }
 )
 
--- clipboard
 vim.g.clipboard = {
   name = 'myClipboard',
   copy = {
@@ -76,10 +68,8 @@ vim.g.clipboard = {
   cache_enabled = 1,
 }
 
--- Apply the colorscheme
 vim.cmd 'colorscheme tokyonight-moon'
 
--- Telescope key mapping
 require('telescope').setup{
   defaults = {
     vimgrep_arguments = {
@@ -94,17 +84,6 @@ require('telescope').setup{
     }
   }
 }
-
-local builtin = require('telescope.builtin')
-vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files find_command=rg,--files,--hidden,--glob,!*.git <CR>', { noremap = true, silent = true })
--- vim.keymap.set('n', '<leader>ff', builtin.find_files, {find_command="rg"})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-
-vim.keymap.set('n', '<C-j>', '<Cmd>BufferPrevious<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-k>', '<Cmd>BufferNext<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>e', '<Cmd>BufferClose<CR>', { noremap = true, silent = true })
 
 -- Gitsign setup
 require('gitsigns').setup()
@@ -152,10 +131,10 @@ cmp.setup({
     -- documentation = cmp.config.window.bordered(),
   },
   mapping = cmp.mapping.preset.insert({
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    -- ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    -- ['<C-Space>'] = cmp.mapping.complete(),
+    -- ['<CR>'] = cmp.mapping.confirm({ select = true }),
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
@@ -187,10 +166,6 @@ cmp.setup.cmdline(':', {
   matching = { disallow_symbol_nonprefix_matching = false }
 })
 
-vim.api.nvim_set_keymap('i', '<Tab>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Tab>"', {expr = true, noremap = true})
-vim.api.nvim_set_keymap('s', '<Tab>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Tab>"', {expr = true, noremap = true})
-vim.api.nvim_set_keymap('i', '<S-Tab>', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-Tab>"', {expr = true, noremap = true})
-vim.api.nvim_set_keymap('s', '<S-Tab>', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-Tab>"', {expr = true, noremap = true})
 
 -- LSP config
 -- It's important that you set up the plugins in the following order:
@@ -294,6 +269,30 @@ require"nvim-treesitter.configs".setup {
   },
 }
 
+-- keymap
+vim.keymap.set('n', 'ss', ':split<Return><C-w>w')
+vim.keymap.set('n', 'sv', ':vsplit<Return><C-w>w')
+vim.keymap.set('n', 'sh', '<C-w>h')
+vim.keymap.set('n', 'sk', '<C-w>k')
+vim.keymap.set('n', 'sj', '<C-w>j')
+vim.keymap.set('n', 'sl', '<C-w>l')
+
+local builtin = require('telescope.builtin')
+vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files find_command=rg,--files,--hidden,--glob,!*.git <CR>', { noremap = true, silent = true })
+-- vim.keymap.set('n', '<leader>ff', builtin.find_files, {find_command="rg"})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+
+vim.keymap.set('n', '<C-j>', '<Cmd>BufferPrevious<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-k>', '<Cmd>BufferNext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>e', '<Cmd>BufferClose<CR>', { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap('i', '<Tab>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Tab>"', {expr = true, noremap = true})
+vim.api.nvim_set_keymap('s', '<Tab>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Tab>"', {expr = true, noremap = true})
+vim.api.nvim_set_keymap('i', '<S-Tab>', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-Tab>"', {expr = true, noremap = true})
+vim.api.nvim_set_keymap('s', '<S-Tab>', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-Tab>"', {expr = true, noremap = true})
+
 -- keymaps about lsp
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { noremap=true, silent=true })
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { noremap=true, silent=true })
@@ -311,3 +310,4 @@ vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
 
 -- vim-github-link
 vim.keymap.set({'v', 'n'}, '<leader>gl', ':GetCommitLink<CR>')
+
