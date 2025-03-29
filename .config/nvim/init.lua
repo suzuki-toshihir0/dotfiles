@@ -273,6 +273,9 @@ if vim.g.vscode then
   end, { noremap = true, silent = true })
 -- Native Neovimだけで使うもの
 else
+  -- insert modeからの離脱
+  vim.keymap.set('i', 'jj', '<ESC>', { noremap = true, silent = true })
+
   -- window split
   vim.keymap.set('n', 'ss', ':split<Return><C-w>w')
   vim.keymap.set('n', 'sv', ':vsplit<Return><C-w>w')
@@ -308,4 +311,3 @@ else
   vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
   vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
 end
-
