@@ -137,6 +137,12 @@ alias yank="win32yank.exe -i"
 # custom commands
 ide() {
   tmux split-window -v -p 25
+  tmux select-pane -t 0
+  nvim .
+}
+
+ide2() {
+  tmux split-window -v -p 25
   tmux split-window -h -p 50
   tmux select-pane -t 0
   nvim .
