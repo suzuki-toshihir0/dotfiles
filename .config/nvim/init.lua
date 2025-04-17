@@ -55,18 +55,24 @@ require("lazy").setup("plugins",
   }
 )
 
-vim.g.clipboard = {
-  name = 'myClipboard',
-  copy = {
-    ['+'] = 'win32yank.exe -i --crlf',
-    ['*'] = 'win32yank.exe -i --crlf',
-  },
-  paste = {
-    ['+'] = 'win32yank.exe -o --lf',
-    ['*'] = 'win32yank.exe -o --lf',
-  },
-  cache_enabled = 1,
-}
+local function is_wsl()
+  return vim.loop.os_uname().release:lower():match("microsoft") ~= nil
+end
+
+if is_wsl() then
+  vim.g.clipboard = {
+    name = 'myClipboard',
+    copy = {
+      ['+'] = 'win32yank.exe -i --crlf',
+      ['*'] = 'win32yank.exe -i --crlf',
+    },
+    paste = {
+      ['+'] = 'win32yank.exe -o --lf',
+      ['*'] = 'win32yank.exe -o --lf',
+    },
+   cache_enabled = 1,
+  }
+end
 
 -- VSCode Neovim環境では使わない設定
 if not vim.g.vscode then
