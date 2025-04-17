@@ -26,6 +26,10 @@ if [[ -d "$HOME/.zfunc" && ":$fpath:" != *":$HOME/.zfunc:"* ]]; then
     fpath+=("$HOME/.zfunc")
 fi
 
+# VSCodeが提供するZshのシェル統合設定
+# Clineがzshの出力を読み取れるようにするために必要
+[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
+
 # ~/.zshrc
 # 外部に公開したくない情報を書くファイル
 if [ -f ~/.zshrc_private ]; then
