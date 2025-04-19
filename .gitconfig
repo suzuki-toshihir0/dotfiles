@@ -1,8 +1,15 @@
 [user]
 	name = Toshihiro Suzuki
 	email = suzuki@arkedgespace.com
-[credential]
-	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
+
+# WSL2特有の設定
+[includeIf "env:WSL_DISTRO_NAME"]
+  path = ~/.gitconfig_wsl
+
+# WSL2ではないLinux環境での設定
+[includeIf "env:XDG_CURRENT_DESKTOP"]
+  path = ~/.gitconfig_linux
+
 [alias]
 	co  = checkout
 	cof = !git branch -a | fzf --height 30% --reverse --border | xargs git checkout
