@@ -267,6 +267,7 @@ end
 
 -- copilot chat
 local select = require('CopilotChat.select')
+local columns = vim.o.columns - (vim.o.columns * 0.4) - 3 -- 2はボーダーの分
 require('CopilotChat').setup({
   -- Shared config starts here (can be passed to functions at runtime and configured via setup function)
 
@@ -288,18 +289,19 @@ require('CopilotChat').setup({
   selection = select.visual,
 
   -- default window options
+
   window = {
-    layout = 'vertical', -- 'vertical', 'horizontal', 'float', 'replace', or a function that returns the layout
-    width = 0.5, -- fractional width of parent, or absolute width in columns when > 1
-    height = 0.5, -- fractional height of parent, or absolute height in rows when > 1
-    -- Options below only apply to floating windows
-    relative = 'editor', -- 'editor', 'win', 'cursor', 'mouse'
-    border = 'single', -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
-    row = nil, -- row position of the window, default is centered
-    col = nil, -- column position of the window, default is centered
-    title = 'Copilot Chat', -- title of chat window
-    footer = nil, -- footer of chat window
-    zindex = 1, -- determines if window is on top or below other floating windows
+    layout = 'float', -- 'vertical'から'float'に変更
+    width = 0.4, -- 幅を少し小さめに
+    height = 0.8, -- 高さを大きめに
+    -- フローティングウィンドウのオプション
+    relative = 'editor',
+    border = 'rounded',
+    row = 1, -- 上端から1行下
+    col = columns, -- 画面の右端に表示
+    title = 'Copilot Chat',
+    footer = nil,
+    zindex = 1,
   },
 
   show_help = true, -- Shows help message as virtual lines when waiting for user input
