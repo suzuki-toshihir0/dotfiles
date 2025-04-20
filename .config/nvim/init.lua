@@ -503,6 +503,36 @@ else
   vim.keymap.set('n', 'sj', '<C-w>j')
   vim.keymap.set('n', 'sl', '<C-w>l')
 
+  -- floating windownとの行き来
+  local function toggle_floating_win()
+    local cur = vim.api.nvim_get_current_win()
+    -- floating windowを抽出する
+    -- floating windowの数は実用上せいぜい1つ程度なので、最初に見つけたものを返す
+    local float_win
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local cfg = vim.api.nvim_win_get_config(win)
+      if cfg.relative and cfg.relative ~= "" then
+        float_win = win
+        break
+      end
+    end
+
+    -- floating windowがなければ何もしない
+    if not float_win or not vim.api.nvim_win_is_valid(float_win) then
+      return
+    end
+
+    if cur == float_win then
+      -- 現在floating window上なら、直前のウィンドウに戻る
+      vim.cmd("wincmd p")
+    else
+      -- それ以外ならfloating windowに移動
+      vim.api.nvim_set_current_win(float_win)
+    end
+  end
+
+  vim.keymap.set("n", "sf", toggle_floating_win)
+
   -- Telescope
   local builtin = require('telescope.builtin')
   vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files find_command=rg,--files,--hidden,--glob,!*.git <CR>', { noremap = true, silent = true })
