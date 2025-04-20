@@ -265,6 +265,225 @@ if not vim.g.vscode then
 }
 end
 
+-- copilot chat
+local select = require('CopilotChat.select')
+local columns = vim.o.columns - (vim.o.columns * 0.4) - 3 -- 2はボーダーの分
+require('CopilotChat').setup({
+  -- Shared config starts here (can be passed to functions at runtime and configured via setup function)
+
+  system_prompt = 'COPILOT_INSTRUCTIONS', -- System prompt to use (can be specified manually in prompt via /).
+
+  model = 'o4-mini', -- Default model to use, see ':CopilotChatModels' for available models (can be specified manually in prompt via $).
+  agent = 'copilot', -- Default agent to use, see ':CopilotChatAgents' for available agents (can be specified manually in prompt via @).
+  context = nil, -- Default context or array of contexts to use (can be specified manually in prompt via #).
+  sticky = nil, -- Default sticky prompt or array of sticky prompts to use at start of every new chat.
+
+  temperature = 0.1, -- GPT result temperature
+  headless = false, -- Do not write to chat buffer and use history (useful for using custom processing)
+  stream = nil, -- Function called when receiving stream updates (returned string is appended to the chat buffer)
+  callback = nil, -- Function called when full response is received (returned string is stored to history)
+  remember_as_sticky = true, -- Remember model/agent/context as sticky prompts when asking questions
+
+  -- default selection
+  -- see select.lua for implementation
+  selection = select.visual,
+
+  -- default window options
+
+  window = {
+    layout = 'float', -- 'vertical'から'float'に変更
+    width = 0.4, -- 幅を少し小さめに
+    height = 0.8, -- 高さを大きめに
+    -- フローティングウィンドウのオプション
+    relative = 'editor',
+    border = 'rounded',
+    row = 1, -- 上端から1行下
+    col = columns, -- 画面の右端に表示
+    title = 'Copilot Chat',
+    footer = nil,
+    zindex = 1,
+  },
+
+  show_help = true, -- Shows help message as virtual lines when waiting for user input
+  highlight_selection = true, -- Highlight selection
+  highlight_headers = true, -- Highlight headers in chat, disable if using markdown renderers (like render-markdown.nvim)
+  references_display = 'virtual', -- 'virtual', 'write', Display references in chat as virtual text or write to buffer
+  auto_follow_cursor = true, -- Auto-follow cursor in chat
+  auto_insert_mode = false, -- Automatically enter insert mode when opening window and on new prompt
+  insert_at_end = false, -- Move cursor to end of buffer when inserting text
+  clear_chat_on_new_prompt = false, -- Clears chat on every new prompt
+
+  -- Static config starts here (can be configured only via setup function)
+
+  debug = false, -- Enable debug logging (same as 'log_level = 'debug')
+  log_level = 'info', -- Log level to use, 'trace', 'debug', 'info', 'warn', 'error', 'fatal'
+  proxy = nil, -- [protocol://]host[:port] Use this proxy
+  allow_insecure = false, -- Allow insecure server connections
+
+  chat_autocomplete = true, -- Enable chat autocompletion (when disabled, requires manual `mappings.complete` trigger)
+
+  log_path = vim.fn.stdpath('state') .. '/CopilotChat.log', -- Default path to log file
+  history_path = vim.fn.stdpath('data') .. '/copilotchat_history', -- Default path to stored history
+
+  question_header = '# User ', -- Header to use for user questions
+  answer_header = '# Copilot ', -- Header to use for AI answers
+  error_header = '# Error ', -- Header to use for errors
+  separator = '───', -- Separator to use in chat
+
+  -- default providers
+  -- see config/providers.lua for implementation
+  providers = {
+    copilot = {
+    },
+    github_models = {
+    },
+    copilot_embeddings = {
+    },
+  },
+
+  -- default contexts
+  -- see config/contexts.lua for implementation
+  contexts = {
+    buffer = {
+    },
+    buffers = {
+    },
+    file = {
+    },
+    files = {
+    },
+    git = {
+    },
+    url = {
+    },
+    register = {
+    },
+    quickfix = {
+    },
+    system = {
+    }
+  },
+
+  -- default prompts
+  -- see config/prompts.lua for implementation
+  prompts = {
+    Explain = {
+      prompt = "/COPILOT_EXPLAIN コードを日本語で説明してください",
+      mapping = '<leader>ce',
+      description = "コードの説明をお願いする",
+    },
+    Review = {
+      prompt = '/COPILOT_REVIEW コードを日本語でレビューしてください。',
+      mapping = '<leader>cr',
+      description = "コードのレビューをお願いする",
+    },
+    Fix = {
+      prompt = "/COPILOT_FIX このコードには問題があります。バグを修正したコードを表示してください。説明は日本語でお願いします。",
+      mapping = '<leader>cf',
+      description = "コードの修正をお願いする",
+    },
+    Optimize = {
+      prompt = "/COPILOT_REFACTOR 選択したコードを最適化し、パフォーマンスと可読性を向上させてください。説明は日本語でお願いします。",
+      mapping = '<leader>co',
+      description = "コードの最適化をお願いする",
+    },
+    Docs = {
+      prompt = "/COPILOT_GENERATE 選択したコードに関するドキュメントコメントを日本語で生成してください。",
+      mapping = '<leader>cd',
+      description = "コードのドキュメント作成をお願いする",
+    },
+    Tests = {
+      prompt = "/COPILOT_TESTS 選択したコードの詳細なユニットテストを書いてください。説明は日本語でお願いします。",
+      mapping = '<leader>ct',
+      description = "テストコード作成をお願いする",
+    },
+    FixDiagnostic = {
+      prompt = 'コードの診断結果に従って問題を修正してください。修正内容の説明は日本語でお願いします。',
+      mapping = '<leader>cd',
+      description = "コードの修正をお願いする",
+      selection = require('CopilotChat.select').diagnostics,
+    },
+    Commit = {
+      prompt =
+      '実装差分に対するコミットメッセージを日本語で記述してください。',
+      mapping = '<leader>cco',
+      description = "コミットメッセージの作成をお願いする",
+      selection = require('CopilotChat.select').gitdiff,
+    },
+    CommitStaged = {
+      prompt =
+      'ステージ済みの変更に対するコミットメッセージを日本語で記述してください。',
+      mapping = '<leader>cs',
+      description = "ステージ済みのコミットメッセージの作成をお願いする",
+      selection = function(source)
+          return require('CopilotChat.select').gitdiff(source, true)
+      end,
+    },
+    },
+
+  -- default mappings
+  -- see config/mappings.lua for implementation
+  mappings = {
+    complete = {
+      insert = '<Tab>',
+    },
+    close = {
+      normal = 'q',
+      insert = '<C-c>',
+    },
+    reset = {
+      normal = '<C-l>',
+      insert = '<C-l>',
+    },
+    submit_prompt = {
+      normal = '<CR>',
+      insert = '<C-s>',
+    },
+    toggle_sticky = {
+      normal = 'grr',
+    },
+    clear_stickies = {
+      normal = 'grx',
+    },
+    accept_diff = {
+      normal = '<C-y>',
+      insert = '<C-y>',
+    },
+    jump_to_diff = {
+      normal = 'gj',
+    },
+    quickfix_answers = {
+      normal = 'gqa',
+    },
+    quickfix_diffs = {
+      normal = 'gqd',
+    },
+    yank_diff = {
+      normal = 'gy',
+      register = '"', -- Default register to use for yanking
+    },
+    show_diff = {
+      normal = 'gd',
+      full_diff = false, -- Show full diff instead of unified diff when showing diff window
+    },
+    show_info = {
+      normal = 'gi',
+    },
+    show_context = {
+      normal = 'gc',
+    },
+    show_help = {
+      normal = 'gh',
+    },
+  },
+})
+
+vim.keymap.set('x', '<leader>cc', function()
+  require('CopilotChat').open()
+end, {
+  desc = "選択範囲をコンテキストに Copilot Chat（空プロンプト）を開く"
+})
+
 -- keymap
 -- Native Neovim, VSCode Neovim共通のキーバインド
 vim.keymap.set('n', '<C-j>', '<Cmd>BufferPrevious<CR>', { noremap = true, silent = true })
@@ -289,6 +508,36 @@ else
   vim.keymap.set('n', 'sk', '<C-w>k')
   vim.keymap.set('n', 'sj', '<C-w>j')
   vim.keymap.set('n', 'sl', '<C-w>l')
+
+  -- floating windownとの行き来
+  local function toggle_floating_win()
+    local cur = vim.api.nvim_get_current_win()
+    -- floating windowを抽出する
+    -- floating windowの数は実用上せいぜい1つ程度なので、最初に見つけたものを返す
+    local float_win
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local cfg = vim.api.nvim_win_get_config(win)
+      if cfg.relative and cfg.relative ~= "" then
+        float_win = win
+        break
+      end
+    end
+
+    -- floating windowがなければ何もしない
+    if not float_win or not vim.api.nvim_win_is_valid(float_win) then
+      return
+    end
+
+    if cur == float_win then
+      -- 現在floating window上なら、直前のウィンドウに戻る
+      vim.cmd("wincmd p")
+    else
+      -- それ以外ならfloating windowに移動
+      vim.api.nvim_set_current_win(float_win)
+    end
+  end
+
+  vim.keymap.set("n", "sf", toggle_floating_win)
 
   -- Telescope
   local builtin = require('telescope.builtin')
