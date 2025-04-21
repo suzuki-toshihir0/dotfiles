@@ -172,6 +172,16 @@ if not vim.g.vscode then
     }),
     matching = { disallow_symbol_nonprefix_matching = false }
   })
+
+  
+  -- init.lua の例
+  vim.opt.completeopt = {
+    "menuone",   -- 候補が1件でもメニューを表示
+    "noselect",  -- 自動選択を無効化
+    "noinsert",  -- 自動挿入を無効化
+    "popup",     -- 浮動ウィンドウ形式のメニューを有効化
+  }
+
   -- LSP config
   -- It's important that you set up the plugins in the following order:
   --
