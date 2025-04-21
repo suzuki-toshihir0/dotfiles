@@ -2,13 +2,9 @@
 	name = Toshihiro Suzuki
 	email = suzuki@arkedgespace.com
 
-# WSL2特有の設定
-[includeIf "env:WSL_DISTRO_NAME"]
-  path = ~/.gitconfig_wsl
-
-# WSL2ではないLinux環境での設定
-[includeIf "env:XDG_CURRENT_DESKTOP"]
-  path = ~/.gitconfig_linux
+[credential]
+  helper = "/usr/lib/git-core/git-credential-libsecret"
+  helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe"
 
 [alias]
 	co  = checkout
