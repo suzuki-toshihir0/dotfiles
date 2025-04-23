@@ -575,4 +575,24 @@ else
   vim.keymap.set("n", "gw", "<cmd>Lspsaga show_workspace_diagnostics<CR>")
   vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
   vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
+
+  -- quickfix
+
+  -- <leader>qdで、今出ているdiagnosticをquickfixに詰め込む
+  vim.api.nvim_create_user_command('DiagnosticsQf', function()
+    vim.diagnostic.setqflist({ open = true })
+  end, {})
+  vim.keymap.set('n', '<leader>qd', '<cmd>DiagnosticsQf<CR>', { noremap=true, silent=true })
+
+  -- quickfix bufferの中で <CR>を押すと、Lspsagaのcode_actionを実行する
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'qf',
+    callback = function()
+      vim.keymap.set('n', '<CR>', '<cmd>Lspsaga code_action<CR>', {
+        buffer = true,
+        noremap = true,
+        silent = true,
+      })
+    end,
+  })
 end
