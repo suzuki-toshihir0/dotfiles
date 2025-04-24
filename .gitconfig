@@ -3,8 +3,8 @@
 	email = suzuki@arkedgespace.com
 
 [credential]
-  helper = "/usr/lib/git-core/git-credential-libsecret"
   helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe"
+  helper = "/usr/lib/git-core/git-credential-libsecret"
 
 [alias]
 	co  = checkout
