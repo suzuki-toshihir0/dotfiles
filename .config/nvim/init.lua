@@ -595,4 +595,11 @@ else
       })
     end,
   })
+  
+  -- 現在のバッファのパスをyankするキーバインド
+  vim.keymap.set('n', '<leader>cy', function()
+    local path = vim.fn.expand('%:p')
+    vim.fn.setreg('+', path)
+    vim.notify('Copied: ' .. path)
+  end, { desc = 'Copy buffer path to clipboard' })
 end
