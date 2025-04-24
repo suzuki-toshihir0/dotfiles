@@ -152,6 +152,13 @@ ide2() {
   nvim .
 }
 
+aide() {
+  tmux split-window -h -p 30 'claude'
+  tmux split-window -v -p 30
+  tmux select-pane -t 0
+  nvim .
+}
+
 repos() {
   local dir=$(ls ~/repos | fzf --height 30% --reverse --border)
   cd ~/repos/"$dir"
