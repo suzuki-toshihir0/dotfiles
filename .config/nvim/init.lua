@@ -185,50 +185,64 @@ if not vim.g.vscode then
   -- LSP config
   -- It's important that you set up the plugins in the following order:
   --
-  -- 1. `mason.nvim`
+  -- 1. Mason 本体セットアップ
   require("mason").setup()
-  -- 2. `mason-lspconfig.nvim`
+
+  -- 2. mason-lspconfig セットアップ
   require("mason-lspconfig").setup({
-    ensure_installed = {"lua_ls", "clangd", "rust_analyzer", "julials", "tinymist", "typos_lsp", "pyright"}
+    ensure_installed      = {
+      "lua_ls", "clangd", "rust_analyzer",
+      "julials", "tinymist", "typos_lsp", "pyright",
+    },
+    automatic_installation = true,  -- インストール済サーバーを自動で lspconfig にフック
   })
-  -- 3. Setup servers via `lspconfig`
-  -- Here, setup the servers automatically based on the installed servers.
-  require("mason-lspconfig").setup_handlers {
-      -- The first entry (without a key) will be the default handler
-      -- and will be called for each installed server that doesn't have
-      -- a dedicated handler.
-      function (server_name) -- default handler (optional)
-          require("lspconfig")[server_name].setup {}
-      end,
-      -- Next, you can provide a dedicated handler for specific servers.
-      -- For example, a handler override for the `rust_analyzer`:
-      -- ["rust_analyzer"] = function ()
-      --     require("rust-tools").setup {}
-      -- end
-      ["lua_ls"] = function()
-        require("lspconfig").lua_ls.setup{
-          settings = {
-            Lua = {
-              diagnostics = {
-                globals = {"vim"}
-              }
-            }
-          }
-        }
-      end,
-      ["clangd"] = function()
-        require("lspconfig").clangd.setup{
-          capabilities = require("cmp_nvim_lsp").default_capabilities(),
-          cmd = { "clangd", "--offset-encoding=utf-16" },
-        }
-      end,
-      ["typos_lsp"] = function()
-        require("lspconfig").typos_lsp.setup{
-          init_options = {
-            config = '~/.config/nvim/spell/.typos.toml',
-          },
-        }
-      end,
+
+  -- 3. on_attach と capabilities（必要なら中身を実装）
+  local on_attach = function(client, bufnr)
+    -- 例えばキー設定など
+  end
+  local caps = require("cmp_nvim_lsp").default_capabilities()
+
+  -- 4. サーバー一覧をループして一括セットアップ
+  local servers = {
+    "lua_ls", "clangd", "rust_analyzer",
+    "julials", "tinymist", "typos_lsp", "pyright",
+  }
+  for _, name in ipairs(servers) do
+    require("lspconfig")[name].setup {
+      on_attach    = on_attach,
+      capabilities = caps,
+    }
+  end
+
+  -- 5. サーバーごとの追加設定（ループ処理後に上書き）
+  -- Lua
+  require("lspconfig").lua_ls.setup {
+    on_attach    = on_attach,
+    capabilities = caps,
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = { "vim" },
+        },
+      },
+    },
+  }
+
+  -- Clangd
+  require("lspconfig").clangd.setup {
+    on_attach    = on_attach,
+    capabilities = caps,
+    cmd = { "clangd", "--offset-encoding=utf-16" },
+  }
+
+  -- typos_lsp
+  require("lspconfig").typos_lsp.setup {
+    on_attach    = on_attach,
+    capabilities = caps,
+    init_options = {
+      config = vim.fn.expand("~/.config/nvim/spell/.typos.toml"),
+    },
   }
 
   -- setup additional plugins about lsp
