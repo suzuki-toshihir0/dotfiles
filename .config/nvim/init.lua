@@ -119,6 +119,13 @@ if not vim.g.vscode then
     end,
   })
 
+
+  -- Rust ファイルを保存するたびに LSP で rustfmt を同期実行
+  vim.api.nvim_create_autocmd('BufWritePre', {
+    pattern = '*.rs',
+    callback = function() vim.lsp.buf.format({ async = false }) end,
+  })
+
   -- nvim-cmp setup
   local cmp = require'cmp'
 
