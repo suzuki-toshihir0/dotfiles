@@ -252,6 +252,25 @@ if not vim.g.vscode then
     },
   }
 
+  -- Rust Analyzer（めちゃくちゃ重くなることがあるので、procMacro無効 + cargo check のみにする）
+  require("lspconfig").rust_analyzer.setup {
+    on_attach    = on_attach,
+    capabilities = caps,
+    settings = {
+      ["rust-analyzer"] = {
+        procMacro = {
+          enable = false,
+        },
+        checkOnSave = {
+          command = "check", -- "clippy" は重いので "check" のみに
+        },
+        diagnostics = {
+          disabled = { "unresolved-proc-macro" }, -- よく出る false positive を抑える
+        },
+      },
+    },
+  }
+
   -- setup additional plugins about lsp
   require("fidget").setup()
 
