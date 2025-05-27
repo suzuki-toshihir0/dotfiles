@@ -212,8 +212,7 @@ if not vim.g.vscode then
 
   -- 4. サーバー一覧をループして一括セットアップ
   local servers = {
-    "lua_ls", "clangd", "rust_analyzer",
-    "julials", "tinymist", "typos_lsp", "pyright",
+    "lua_ls", "julials", "tinymist", "pyright",
   }
   for _, name in ipairs(servers) do
     require("lspconfig")[name].setup {
