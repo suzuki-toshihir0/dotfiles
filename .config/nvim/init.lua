@@ -258,7 +258,7 @@ if not vim.g.vscode then
     settings = {
       ["rust-analyzer"] = {
         procMacro = {
-          enable = false,
+          enable = true,
         },
         checkOnSave = {
           command = "check", -- "clippy" は重いので "check" のみに
