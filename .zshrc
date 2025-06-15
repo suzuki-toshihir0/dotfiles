@@ -135,6 +135,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias e="echo -n"
 alias t="tmux"
+alias ta="tmux attach"
 alias v="nvim"
 alias yank="win32yank.exe -i"
 
