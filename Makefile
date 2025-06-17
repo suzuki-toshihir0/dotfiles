@@ -1,4 +1,4 @@
-all: zsh tmux git nvim
+all: zsh tmux git nvim claude
 
 zsh:
 	ln -sf $(PWD)/.zshrc $(HOME)/.zshrc
@@ -18,3 +18,7 @@ nvim:
 	ln -sf $(PWD)/.config/nvim/init.lua $(HOME)/.config/nvim/init.lua
 	find $(HOME)/.config/nvim/lua/plugins -maxdepth 1 -type l -delete
 	ln -sf $(PWD)/.config/nvim/lua/plugins/ $(HOME)/.config/nvim/lua/
+
+claude:
+	mkdir -p $(HOME)/.claude
+	ln -sf $(PWD)/.claude/CLAUDE.md $(HOME)/.claude/CLAUDE.md

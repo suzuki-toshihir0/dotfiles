@@ -10,7 +10,9 @@ This is a personal dotfiles repository designed for WSL2 (Windows Subsystem for 
 
 ### Installation
 ```bash
-# Install all dotfiles (WARNING: forcibly overwrites existing files)
+# Clone and install (WARNING: forcibly overwrites existing files)
+git clone https://github.com/suzuki-toshihir0/dotfiles.git
+cd dotfiles
 make
 
 # Install specific configurations
@@ -18,9 +20,13 @@ make zsh     # Zsh configuration only
 make tmux    # Tmux configuration only
 make git     # Git configuration only
 make nvim    # Neovim configuration only
+make claude  # Claude user memory configuration only
 
 # Install HackGen Console NF font
 cd font && make
+
+# Enable rustup tab completion (if using Rust)
+rustup completions zsh > ~/.zfunc/_rustup
 ```
 
 ### Development
@@ -59,9 +65,14 @@ The repository uses GNU Make to create symbolic links from the repository to the
    - win32yank for clipboard sharing between WSL and Windows
    - Git credential manager integration for seamless authentication
 
+5. **Claude User Memory (.claude/CLAUDE.md)**
+   - Language preference settings for Claude Code interactions
+   - Communication style preferences (Japanese language)
+
 ### Important Notes
 
 - **Forceful Overwriting**: The Makefile uses `ln -sf` which forcefully overwrites existing dotfiles without backup
 - **Privacy**: Create `.zshrc_private` for sensitive configurations (API keys, tokens)
-- **Dependencies**: Requires neovim (latest via AppImage recommended), tmux, zsh with Oh My Zsh, fzf
+- **Dependencies**: Requires neovim (latest via AppImage recommended - see https://github.com/neovim/neovim/blob/master/INSTALL.md#appimage-universal-linux-package), tmux, zsh with Oh My Zsh, fzf
 - **Font**: HackGen Console NF provides Nerd Font icons and Japanese character support
+- **Clipboard Integration**: win32yank enables clipboard sharing between WSL and Windows (see win32yank/README.md for installation)
