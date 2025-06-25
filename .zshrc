@@ -21,6 +21,10 @@ if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
+if [[ ":$PATH:" != *":$HOME/.npm-global/bin:"* ]]; then
+    export PATH="$HOME/.npm-global/bin:$PATH"
+fi
+
 # Add ~/.zfunc to fpath if not already included
 if [[ -d "$HOME/.zfunc" && ":$fpath:" != *":$HOME/.zfunc:"* ]]; then
     fpath+=("$HOME/.zfunc")
