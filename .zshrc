@@ -142,7 +142,15 @@ alias t="tmux"
 alias ta="tmux attach"
 alias tn="tmux new -s"
 alias v="nvim"
-alias yank="win32yank.exe -i"
+
+# クリップボードエイリアス（環境に応じて切り替え）
+if grep -qi microsoft /proc/version 2>/dev/null; then
+    # WSL2環境
+    alias yank="win32yank.exe -i"
+else
+    # Linux環境（Wayland）
+    alias yank="wl-copy"
+fi
 
 # custom commands
 ide() {
