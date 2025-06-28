@@ -2,8 +2,8 @@
 	name = Toshihiro Suzuki
 	email = suzuki@arkedgespace.com
 
-[includeIf "gitdir/i:~/"]
-	path = ~/.gitconfig_os
+[credential]
+	helper = !/usr/bin/gh auth git-credential
 
 [alias]
 	co  = checkout
