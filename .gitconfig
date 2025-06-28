@@ -2,9 +2,8 @@
 	name = Toshihiro Suzuki
 	email = suzuki@arkedgespace.com
 
-[credential]
-  helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe"
-  helper = "/usr/lib/git-core/git-credential-libsecret"
+[includeIf "gitdir/i:~/"]
+	path = ~/.gitconfig_os
 
 [alias]
 	co  = checkout
