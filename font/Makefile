@@ -1,4 +1,4 @@
-FONT_URL := https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGen_NF_v2.9.0.zip
+FONT_URL := https://github.com/yuru7/HackGen/releases/download/v2.10.0/HackGen_NF_v2.10.0.zip
 FONT_DIR := /usr/local/share/fonts/hackgen
 DOWNLOAD_DIR := $(CURDIR)/hackgen_temp
 
