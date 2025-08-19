@@ -38,6 +38,25 @@ rustup completions zsh > ~/.zfunc/_rustup
 - `claude`: Symlink Claude user memory settings
 
 ### Development
+
+**Development Workflow**
+```bash
+# IMPORTANT: NEVER commit directly to main branch
+# Always use feature branches and pull requests
+
+# 1. Create feature branch
+git checkout -b feature/description
+
+# 2. Make changes and commit
+git add .
+git commit -m "descriptive message"
+
+# 3. Push branch and create PR
+git push -u origin feature/description
+gh pr create --title "Title" --body "Description"
+```
+
+**Commands**
 ```bash
 # No specific build/test commands - this is a configuration repository
 # Configurations take effect immediately after installation via symlinks
