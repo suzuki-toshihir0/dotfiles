@@ -180,6 +180,31 @@ aide() {
   nvim .
 }
 
+aide2() {
+  local LEFT_TOP
+  LEFT_TOP=$(tmux display-message -p '#{pane_id}')
+
+  # 右30%
+  local RIGHT_TOP
+  RIGHT_TOP=$(tmux split-window -h -p 30 -t "$LEFT_TOP" -P -F '#{pane_id}')
+
+  # 左下30%
+  local LEFT_BOTTOM
+  LEFT_BOTTOM=$(tmux split-window -v -p 30 -t "$LEFT_TOP" -P -F '#{pane_id}')
+
+  # 左下を左右50:50
+  tmux split-window -h -p 50 -t "$LEFT_BOTTOM"
+
+  # 右 70:15:15 → 下30%を作って、その下30%をさらに50:50
+  local RIGHT_BOTTOM
+  RIGHT_BOTTOM=$(tmux split-window -v -p 30 -t "$RIGHT_TOP" -P -F '#{pane_id}')
+  tmux split-window -v -p 50 -t "$RIGHT_BOTTOM"
+
+  tmux select-pane -t "$LEFT_TOP"
+  tmux send-keys -t "$RIGHT_TOP" 'claude' C-m
+  tmux send-keys -t "$LEFT_TOP"  'nvim .' C-m
+}
+
 repos() {
   local dir=$(ls ~/repos | fzf --height 30% --reverse --border)
   cd ~/repos/"$dir"
