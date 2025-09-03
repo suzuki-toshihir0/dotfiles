@@ -147,6 +147,7 @@ source $ZSH/oh-my-zsh.sh
 alias e="echo -n"
 alias t="tmux"
 alias ta="tmux attach"
+alias tks="tmux kill-session"
 alias tn="tmux new -s"
 alias v="nvim"
 
