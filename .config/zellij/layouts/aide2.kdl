@@ -1,0 +1,22 @@
+layout {
+    pane size=1 borderless=true {
+        plugin location="tab-bar"
+    }
+    pane size="70%" split_direction="vertical" {
+      pane name="nvim" focus=true command="nvim" {
+        args "."
+      }
+      pane size="30%" name="claude" command="claude"
+    }
+    pane split_direction="vertical" {
+      pane size="35%" name="terminal 1"
+      pane size="35%" name="terminal 2"
+      pane {
+        pane name="sub terminal 1"
+        pane name="sub terminal 2"
+      }
+    }
+    pane size=1 borderless=true {
+        plugin location="status-bar"
+    }
+}
