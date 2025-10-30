@@ -165,11 +165,8 @@ else
 fi
 
 # custom commands
-ide() {
-  tmux split-window -v -p 25
-  tmux select-pane -t 0
-  nvim .
-}
+# IDEレイアウトをZellijで起動する短縮コマンド
+alias ide='zellij --layout aide2'
 
 ide2() {
   tmux split-window -v -p 25
